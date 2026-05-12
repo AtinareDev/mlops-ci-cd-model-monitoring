@@ -2,47 +2,41 @@
 
 
 
-Pipeline MLOps orientado a producción para entrenar, validar y monitorizar modelos de machine learning mediante un flujo CI/CD automatizado.
-
-
-
-El proyecto implementa un sistema de validación que bloquea modelos inválidos antes de su despliegue y publica un reporte HTML con los últimos resultados aprobados en GitHub Pages.
-
-
-
 !\[Pipeline](https://github.com/AtinareDev/mlops-ci-cd-model-monitoring/actions/workflows/mlops.yml/badge.svg)
 
 
 
-\## Reporte en vivo
+Pipeline MLOps orientado a producción para entrenar, validar y monitorizar modelos de machine learning mediante un flujo CI/CD automatizado.
 
 
 
-\[Ver reporte en GitHub Pages](https://atinaredev.github.io/mlops-ci-cd-model-monitoring/)
+El proyecto valida automáticamente cada ejecución del modelo y solo publica resultados cuando se cumplen los criterios mínimos de calidad.
 
 
 
-\## Repositorio
+\## Enlaces
 
 
 
-\[Ver repositorio en GitHub](https://github.com/AtinareDev/mlops-ci-cd-model-monitoring)
+\- Repositorio: https://github.com/AtinareDev/mlops-ci-cd-model-monitoring
+
+\- Reporte en GitHub Pages: https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
 
 
 
-\## Descripción general
+\## Descripción
 
 
 
-Este proyecto implementa un flujo MLOps automatizado para validar modelos de machine learning antes de considerarlos aptos para producción.
+Este proyecto implementa un pipeline CI/CD para un modelo de machine learning.
 
 
 
-El pipeline ejecuta controles de calidad de código, pruebas unitarias, entrenamiento del modelo, validación de métricas y generación de un reporte visual publicado automáticamente.
+El flujo automatizado ejecuta controles de calidad, pruebas unitarias, entrenamiento del modelo, validación de métricas y generación de un reporte HTML publicado en GitHub Pages.
 
 
 
-El objetivo principal es asegurar que solo los modelos que cumplen criterios mínimos de calidad puedan ser aceptados.
+El modelo solo se considera válido si supera los umbrales mínimos de accuracy, precision y recall.
 
 
 
@@ -50,39 +44,35 @@ El objetivo principal es asegurar que solo los modelos que cumplen criterios mí
 
 
 
-\- Pipeline CI/CD automatizado con GitHub Actions
+\- Pipeline CI/CD con GitHub Actions.
 
-\- Gestión del entorno con `uv`
+\- Gestión del entorno con `uv`.
 
-\- Ejecución con Python 3.14
+\- Ejecución con Python 3.14.
 
-\- Validación de calidad de código con `ruff`
+\- Linting con `ruff`.
 
-\- Validación de formato con `ruff format`
+\- Validación de formato con `ruff format`.
 
-\- Chequeo estático de tipos con `ty`
+\- Chequeo estático de tipos con `ty`.
 
-\- Pruebas unitarias con `pytest`
+\- Tests unitarios con `pytest`.
 
-\- Entrenamiento automático del modelo
+\- Entrenamiento automático del modelo.
 
-\- Validación automática de métricas
+\- Validación automática de métricas.
 
-\- Control de aceptación basado en accuracy, precision y recall
+\- Generación de reporte HTML.
 
-\- Generación de reporte HTML
-
-\- Despliegue automático en GitHub Pages
-
-\- Proyecto preparado para portfolio técnico
+\- Despliegue automático en GitHub Pages.
 
 
 
-\## Criterios de aceptación del modelo
+\## Criterios de aceptación
 
 
 
-Un modelo se considera válido solo si todas las etapas del pipeline se ejecutan correctamente.
+Un modelo solo se acepta si todas las etapas del pipeline se ejecutan correctamente.
 
 
 
@@ -96,7 +86,7 @@ Un modelo se considera válido solo si todas las etapas del pipeline se ejecutan
 
 | Tipos | `ty check` debe pasar sin errores |
 
-| Tests | `pytest` debe ejecutar todas las pruebas correctamente |
+| Tests | `pytest` debe pasar correctamente |
 
 | Entrenamiento | Debe generarse una nueva versión del modelo |
 
@@ -114,45 +104,55 @@ Si cualquier etapa falla, el pipeline se detiene y el modelo queda rechazado.
 
 
 
-```mermaid
+```text
 
-flowchart LR
+Push o Pull Request
 
-&#x20;   A\[Push o Pull Request] --> B\[Calidad de código]
+&#x20;       |
 
-&#x20;   B --> C\[Pruebas unitarias]
+&#x20;       v
 
-&#x20;   C --> D\[Entrenamiento del modelo]
+Calidad de código
 
-&#x20;   D --> E\[Validación de métricas]
+&#x20;       |
 
-&#x20;   E --> F\[Generación del reporte HTML]
+&#x20;       v
 
-&#x20;   F --> G\[Despliegue en GitHub Pages]
+Pruebas unitarias
 
+&#x20;       |
 
+&#x20;       v
 
-&#x20;   B -. fallo .-> X\[Pipeline fallido]
+Entrenamiento del modelo
 
-&#x20;   C -. fallo .-> X
+&#x20;       |
 
-&#x20;   D -. fallo .-> X
+&#x20;       v
 
-&#x20;   E -. fallo .-> X
+Validación de métricas
+
+&#x20;       |
+
+&#x20;       v
+
+Generación del reporte HTML
+
+&#x20;       |
+
+&#x20;       v
+
+Despliegue en GitHub Pages
 
 ```
 
 
 
-\## Puerta de validación de métricas
+\## Métricas mínimas requeridas
 
 
 
-Para que un modelo sea aceptado, debe cumplir los siguientes umbrales mínimos:
-
-
-
-| Métrica | Mínimo requerido |
+| Métrica | Umbral mínimo |
 
 |---|---:|
 
@@ -164,7 +164,7 @@ Para que un modelo sea aceptado, debe cumplir los siguientes umbrales mínimos:
 
 
 
-Ejemplo del archivo de métricas generado:
+Ejemplo de archivo de métricas generado:
 
 
 
@@ -184,7 +184,7 @@ Ejemplo del archivo de métricas generado:
 
 
 
-\## Estructura del repositorio
+\## Estructura del proyecto
 
 
 
@@ -242,7 +242,7 @@ Ejemplo del archivo de métricas generado:
 
 
 
-\### 1. Clonar el repositorio
+Clonar el repositorio:
 
 
 
@@ -256,7 +256,7 @@ cd mlops-ci-cd-model-monitoring
 
 
 
-\### 2. Ejecutar tests
+Ejecutar tests:
 
 
 
@@ -268,7 +268,7 @@ uv run pytest -q
 
 
 
-\### 3. Ejecutar controles de calidad
+Ejecutar controles de calidad:
 
 
 
@@ -284,7 +284,7 @@ uv run --with ty ty check .
 
 
 
-\### 4. Entrenar y validar el modelo
+Entrenar y validar el modelo:
 
 
 
@@ -298,7 +298,7 @@ uv run python scripts/validate\_metrics.py --threshold 0.80
 
 
 
-\### 5. Generar el reporte HTML
+Generar el reporte HTML:
 
 
 
@@ -322,7 +322,7 @@ public/index.html
 
 
 
-\## CI/CD con GitHub Actions
+\## CI/CD
 
 
 
@@ -334,21 +334,21 @@ Etapas del workflow:
 
 
 
-1\. Validación de calidad de código
+1\. Validación de calidad de código.
 
-2\. Validación de formato
+2\. Validación de formato.
 
-3\. Chequeo estático de tipos
+3\. Chequeo estático de tipos.
 
-4\. Ejecución de pruebas unitarias
+4\. Ejecución de pruebas unitarias.
 
-5\. Entrenamiento del modelo
+5\. Entrenamiento del modelo.
 
-6\. Validación de métricas mínimas
+6\. Validación de métricas mínimas.
 
-7\. Generación de reporte HTML
+7\. Generación del reporte HTML.
 
-8\. Despliegue automático en GitHub Pages
+8\. Despliegue automático en GitHub Pages.
 
 
 
@@ -372,7 +372,7 @@ https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
 
 
 
-La página muestra información de la última ejecución aprobada, incluyendo métricas del modelo, estado de validación y detalles del pipeline.
+La página muestra la última ejecución aprobada del pipeline, incluyendo las métricas del modelo y detalles de validación.
 
 
 
@@ -388,11 +388,11 @@ La página muestra información de la última ejecución aprobada, incluyendo m�
 
 \- GitHub Pages
 
-\- Pytest
+\- pytest
 
-\- Ruff
+\- ruff
 
-\- Ty
+\- ty
 
 \- HTML
 
@@ -404,25 +404,11 @@ La página muestra información de la última ejecución aprobada, incluyendo m�
 
 
 
-\## Resultado esperado
+\## Resultado
 
 
 
-Al finalizar una ejecución correcta del pipeline:
-
-
-
-\- El código pasa los controles de calidad.
-
-\- Las pruebas unitarias se ejecutan correctamente.
-
-\- El modelo se entrena automáticamente.
-
-\- Las métricas superan el umbral mínimo del 80%.
-
-\- Se genera un reporte HTML.
-
-\- El reporte queda disponible públicamente en GitHub Pages.
+El proyecto demuestra un flujo MLOps automatizado donde los modelos se prueban, validan y publican únicamente cuando cumplen los criterios mínimos de calidad definidos.
 
 
 
