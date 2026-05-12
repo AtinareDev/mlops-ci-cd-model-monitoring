@@ -10,7 +10,7 @@ Pipeline MLOps orientado a producción para entrenar, validar y monitorizar mode
 
 
 
-El proyecto valida automáticamente cada ejecución del modelo y solo publica resultados cuando se cumplen los criterios mínimos de calidad.
+El proyecto automatiza el ciclo de validación de un modelo, bloqueando ejecuciones inválidas y publicando únicamente los resultados aprobados en GitHub Pages.
 
 
 
@@ -18,25 +18,25 @@ El proyecto valida automáticamente cada ejecución del modelo y solo publica re
 
 
 
-\- Repositorio: https://github.com/AtinareDev/mlops-ci-cd-model-monitoring
+\- \*\*Repositorio:\*\* https://github.com/AtinareDev/mlops-ci-cd-model-monitoring
 
-\- Reporte en GitHub Pages: https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
-
-
-
-\## Descripción
+\- \*\*Reporte en GitHub Pages:\*\* https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
 
 
 
-Este proyecto implementa un pipeline CI/CD para un modelo de machine learning.
+\## Descripción general
 
 
 
-El flujo automatizado ejecuta controles de calidad, pruebas unitarias, entrenamiento del modelo, validación de métricas y generación de un reporte HTML publicado en GitHub Pages.
+Este proyecto implementa un pipeline CI/CD para un modelo de machine learning con foco en calidad, reproducibilidad y validación automática.
 
 
 
-El modelo solo se considera válido si supera los umbrales mínimos de accuracy, precision y recall.
+El flujo ejecuta controles de calidad de código, pruebas unitarias, entrenamiento del modelo, validación de métricas y generación de un reporte HTML desplegado automáticamente en GitHub Pages.
+
+
+
+El modelo solo se considera apto cuando supera los umbrales mínimos definidos para `accuracy`, `precision` y `recall`.
 
 
 
@@ -44,19 +44,19 @@ El modelo solo se considera válido si supera los umbrales mínimos de accuracy,
 
 
 
-\- Pipeline CI/CD con GitHub Actions.
+\- Pipeline CI/CD automatizado con GitHub Actions.
 
 \- Gestión del entorno con `uv`.
 
 \- Ejecución con Python 3.14.
 
-\- Linting con `ruff`.
+\- Validación de calidad de código con `ruff`.
 
 \- Validación de formato con `ruff format`.
 
 \- Chequeo estático de tipos con `ty`.
 
-\- Tests unitarios con `pytest`.
+\- Pruebas unitarias con `pytest`.
 
 \- Entrenamiento automático del modelo.
 
@@ -65,6 +65,8 @@ El modelo solo se considera válido si supera los umbrales mínimos de accuracy,
 \- Generación de reporte HTML.
 
 \- Despliegue automático en GitHub Pages.
+
+\- Proyecto preparado para portfolio técnico.
 
 
 
@@ -80,17 +82,17 @@ Un modelo solo se acepta si todas las etapas del pipeline se ejecutan correctame
 
 |---|---|
 
-| Linting | `ruff check` debe pasar sin errores |
+| Calidad de código | `ruff check` debe pasar sin errores |
 
 | Formato | `ruff format --check` debe pasar correctamente |
 
 | Tipos | `ty check` debe pasar sin errores |
 
-| Tests | `pytest` debe pasar correctamente |
+| Tests | `pytest` debe ejecutar todas las pruebas correctamente |
 
 | Entrenamiento | Debe generarse una nueva versión del modelo |
 
-| Validación | Accuracy, precision y recall deben ser al menos 80% |
+| Validación | `accuracy`, `precision` y `recall` deben ser al menos 80% |
 
 | Reporte | Debe generarse y publicarse el reporte HTML |
 
@@ -104,6 +106,10 @@ Si cualquier etapa falla, el pipeline se detiene y el modelo queda rechazado.
 
 
 
+El pipeline sigue este orden:
+
+
+
 ```text
 
 Push o Pull Request
@@ -112,7 +118,7 @@ Push o Pull Request
 
 &#x20;       v
 
-Calidad de código
+Validación de calidad de código
 
 &#x20;       |
 
@@ -142,13 +148,17 @@ Generación del reporte HTML
 
 &#x20;       v
 
-Despliegue en GitHub Pages
+Despliegue automático en GitHub Pages
 
 ```
 
 
 
 \## Métricas mínimas requeridas
+
+
+
+Para que un modelo sea aceptado, debe cumplir estos umbrales mínimos:
 
 
 
@@ -164,7 +174,7 @@ Despliegue en GitHub Pages
 
 
 
-Ejemplo de archivo de métricas generado:
+Ejemplo de archivo de métricas generado por el pipeline:
 
 
 
@@ -179,6 +189,44 @@ Ejemplo de archivo de métricas generado:
 &#x20; "recall": 1.0
 
 }
+
+```
+
+
+
+\## Reporte publicado
+
+
+
+El pipeline genera automáticamente un reporte HTML con la última ejecución aprobada.
+
+
+
+El reporte incluye:
+
+
+
+\- Estado de validación del modelo.
+
+\- Métricas principales.
+
+\- Identificador del modelo entrenado.
+
+\- Fecha de entrenamiento.
+
+\- Detalles de clasificación.
+
+\- Confirmación de que el modelo supera los umbrales mínimos.
+
+
+
+Reporte disponible en:
+
+
+
+```text
+
+https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
 
 ```
 
@@ -218,6 +266,10 @@ Ejemplo de archivo de métricas generado:
 
 │   └── revolutionary\_mlops/
 
+│       ├── \_\_init\_\_.py
+
+│       ├── \_\_main\_\_.py
+
 │       ├── metrics.py
 
 │       ├── ml.py
@@ -226,7 +278,21 @@ Ejemplo de archivo de métricas generado:
 
 │       └── pipelines/
 
+│           ├── \_\_init\_\_.py
+
+│           ├── train\_pipeline.py
+
+│           └── validate\_pipeline.py
+
 ├── tests/
+
+│   ├── test\_metrics.py
+
+│   ├── test\_ml.py
+
+│   ├── test\_pipelines.py
+
+│   └── test\_utils.py
 
 ├── pyproject.toml
 
@@ -242,7 +308,7 @@ Ejemplo de archivo de métricas generado:
 
 
 
-Clonar el repositorio:
+\### 1. Clonar el repositorio
 
 
 
@@ -256,7 +322,7 @@ cd mlops-ci-cd-model-monitoring
 
 
 
-Ejecutar tests:
+\### 2. Ejecutar tests
 
 
 
@@ -268,7 +334,7 @@ uv run pytest -q
 
 
 
-Ejecutar controles de calidad:
+\### 3. Ejecutar controles de calidad
 
 
 
@@ -284,7 +350,7 @@ uv run --with ty ty check .
 
 
 
-Entrenar y validar el modelo:
+\### 4. Entrenar y validar el modelo
 
 
 
@@ -298,7 +364,7 @@ uv run python scripts/validate\_metrics.py --threshold 0.80
 
 
 
-Generar el reporte HTML:
+\### 5. Generar el reporte HTML
 
 
 
@@ -322,11 +388,11 @@ public/index.html
 
 
 
-\## CI/CD
+\## CI/CD con GitHub Actions
 
 
 
-El workflow se ejecuta automáticamente en cada push o pull request hacia la rama `main`.
+El workflow se ejecuta automáticamente en cada `push` o `pull request` hacia la rama `main`.
 
 
 
@@ -353,26 +419,6 @@ Etapas del workflow:
 
 
 Solo las ejecuciones exitosas generan un reporte publicado.
-
-
-
-\## GitHub Pages
-
-
-
-El reporte de resultados se publica automáticamente en:
-
-
-
-```text
-
-https://atinaredev.github.io/mlops-ci-cd-model-monitoring/
-
-```
-
-
-
-La página muestra la última ejecución aprobada del pipeline, incluyendo las métricas del modelo y detalles de validación.
 
 
 
@@ -408,7 +454,11 @@ La página muestra la última ejecución aprobada del pipeline, incluyendo las m
 
 
 
-El proyecto demuestra un flujo MLOps automatizado donde los modelos se prueban, validan y publican únicamente cuando cumplen los criterios mínimos de calidad definidos.
+Este proyecto demuestra un flujo MLOps automatizado en el que los modelos se prueban, validan y publican únicamente cuando cumplen criterios mínimos de calidad.
+
+
+
+El pipeline permite iterar sobre nuevas configuraciones del modelo de forma segura, manteniendo controles automáticos antes de considerar una versión como válida para producción.
 
 
 
